@@ -4,6 +4,7 @@ import type { ReferralStatus } from '../types/referral';
 
 const props = defineProps<{
   status: ReferralStatus;
+  joinedDate: string | null;
 }>();
 
 const statusMap = {
@@ -29,6 +30,22 @@ const statusMap = {
   },
 };
 
+
+const formatJoinDate = (dateString: string): string => {
+  if (!dateString) return '';
+  return new Date(dateString).toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric'
+  });
+};
+
+const displayStatusText = computed(() => {
+    let text = displayData.value.text;
+    if (props.status === 'JOINED' && props.joinedDate) {
+        text = `${text} on ${formatJoinDate(props.joinedDate)}`;
+    }
+    return text;
+});
+
 const displayData = computed(() => {
   return statusMap[props.status] || {
     text: 'Unknown',
@@ -43,6 +60,6 @@ const displayData = computed(() => {
     :class="['px-3 py-1 text-xs font-semibold rounded-md inline-flex items-center', displayData.color]"
   >
     <div class="w-4 h-4 mr-1" v-html="displayData.iconSvg"></div>
-    {{ displayData.text }}
+    {{ displayStatusText }}
   </span>
 </template>

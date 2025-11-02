@@ -26,6 +26,7 @@ class Referral(models.Model):
 
     referred_date = models.DateTimeField(auto_now_add=True)
     last_sent_at = models.DateTimeField(auto_now_add=True)
+    joined_date = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ['-referred_date']

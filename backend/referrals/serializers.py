@@ -1,11 +1,13 @@
 from rest_framework import serializers
+from django.utils import timezone
+
 from .models import Referral
 
 
 class ReferralSerializer(serializers.ModelSerializer):
     class Meta:
         model = Referral
-        fields = ['id', 'first_name', 'last_name', 'email', 'status', 'referred_date', 'last_sent_at']
+        fields = ['id', 'first_name', 'last_name', 'email', 'status', 'referred_date', 'last_sent_at', 'joined_date']
         read_only_fields = ['id', 'referred_date', 'last_sent_at']
 
     def validate_email(self, value):
@@ -29,6 +31,11 @@ class ReferralSerializer(serializers.ModelSerializer):
             'JOINED': 2,
             'DECLINED': 3
         }
+
+        if new_status == 'JOINED' and current_status != 'JOINED':
+            instance.joined_date = timezone.now()
+        elif new_status != 'JOINED' and current_status == 'JOINED':
+            instance.joined_date = None
 
         if current_status != new_status:
             current_order = STATUS_ORDER.get(current_status)

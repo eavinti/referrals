@@ -102,7 +102,7 @@ defineExpose({
             <td class="py-4 whitespace-nowrap">{{ referral.first_name }} {{ referral.last_name }}</td>
             <td class="py-4 whitespace-nowrap text-gray-secondary">{{ referral.email }}</td>
             <td class="py-4 whitespace-nowrap">
-              <StatusPill :status="referral.status" />
+              <StatusPill :status="referral.status" :joined-date="referral.joined_date" />
             </td>
             <td class="py-4 whitespace-nowrap">{{ formatDate(referral.referred_date) }}</td>
             <td class="py-4 whitespace-nowrap">

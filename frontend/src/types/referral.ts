@@ -8,6 +8,7 @@ export interface Referral {
   status: ReferralStatus;
   referred_date: string;
   last_sent_at: string;
+  joined_date: string | null;
 }
 
 export interface AnalyticsData {
